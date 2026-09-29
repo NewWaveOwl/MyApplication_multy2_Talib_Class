@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Awesome App</string>
+
+    <!-- Screen titles -->
+    <string name="title_home">Home</string>
+    <string name="title_about">About Us</string>
+    <string name="title_contact">Contact</string>
+
+    <!-- Body text (with arguments) -->
+    <string name="main_greeting">Compose: %1$s</string>
+    <string name="about_message">Hello %1$s, this is the About screen.</string>
+    <string name="contact_message">Contact %1$s in %2$s</string>
+
+    <!-- Buttons -->
+    <string name="btn_go_main">Go to Main</string>
+    <string name="btn_go_about">Go to About</string>
+    <string name="btn_go_contact">Go to Contact</string>
+    <string name="fab_home">Home</string>
+
+    <!-- Bars -->
+    <string name="copyright">\u00A9 2026 CoolEntertainment, Inc.</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_go_back">Go Back</string>
+    <string name="cd_menu">Menu</string>
+    <string name="cd_go_home">Go Home</string>
+    <string name="cd_go_about">Go to About Us</string>
+    <string name="cd_go_contact">Go to Contact</string>
+</resources>
