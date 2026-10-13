@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -32,6 +31,9 @@ fun App() {
             navigator.navigate(ContactScreenKey(SamplePeople.contact.name, SamplePeople.contact.city))
         }
 
+        val goMySimple: () -> Unit = { navigator.navigate(MySimpleScreenKey) }
+        val goMySimple2: () -> Unit = { navigator.navigate(MySimpleScreen2Key) }
+
         CompositionLocalProvider(LocalNavigator provides navigator) {
             // Shared chrome stays outside NavDisplay's animated screen content.
             MainLayout(
@@ -41,24 +43,28 @@ fun App() {
                 onBack = navigator::pop,
                 onHome = goHome,
                 onAbout = goAbout,
-                onContact = goContact
+                onContact = goContact,
+                onMySimple = goMySimple,
+                onMySimple2 = goMySimple2
             ) {
                 NavDisplay(
                     backStack = backStack,
                     onBack = navigator::pop,
+                    // Slide 34 exercise: ViewModels use the app root's owner.
+                    // Popping a destination therefore retains its ViewModel state.
                     entryDecorators = listOf(
-                        rememberSaveableStateHolderNavEntryDecorator(),
-                        rememberViewModelStoreNavEntryDecorator()
+                        rememberSaveableStateHolderNavEntryDecorator()
                     ),
                     entryProvider = entryProvider<NavKey> {
                         entry<MainScreenKey> {
                             MainScreen(
                                 onGoAbout = goAbout,
                                 onGoContact = goContact,
-                                onGoViewModel = { navigator.navigate(MySimpleScreenKey) }
+                                onGoViewModel = goMySimple
                             )
                         }
                         entry<MySimpleScreenKey> { MySimpleScreen() }
+                        entry<MySimpleScreen2Key> { MySimpleScreen2() }
                         entry<AboutScreenKey> { key ->
                             AboutScreen(name = key.name, onGoMain = goHome, onGoContact = goContact)
                         }

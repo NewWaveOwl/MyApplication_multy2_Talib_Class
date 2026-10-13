@@ -11,6 +11,7 @@ import myapplication_multy2.shared.generated.resources.title_about
 import myapplication_multy2.shared.generated.resources.title_contact
 import myapplication_multy2.shared.generated.resources.title_home
 import myapplication_multy2.shared.generated.resources.title_viewmodel
+import myapplication_multy2.shared.generated.resources.title_viewmodel2
 import org.jetbrains.compose.resources.StringResource
 
 /** Closed set of destinations, each supplying its localized title resource. */
@@ -29,6 +30,11 @@ data object MySimpleScreenKey : ScreenKey {
 }
 
 @Serializable
+data object MySimpleScreen2Key : ScreenKey {
+    override val screenTitle: StringResource get() = Res.string.title_viewmodel2
+}
+
+@Serializable
 data class AboutScreenKey(val name: String) : ScreenKey {
     override val screenTitle: StringResource get() = Res.string.title_about
 }
@@ -43,7 +49,8 @@ val navSavedStateConfig = SavedStateConfiguration {
     serializersModule = SerializersModule {
         polymorphic(NavKey::class) {
             subclass(MainScreenKey::class)
-            subclass(MySimpleScreenKey::class)
+            subclass(MySimpleScreenKey::class, MySimpleScreenKey.serializer())
+            subclass(MySimpleScreen2Key::class, MySimpleScreen2Key.serializer())
             subclass(AboutScreenKey::class)
             subclass(ContactScreenKey::class)
         }

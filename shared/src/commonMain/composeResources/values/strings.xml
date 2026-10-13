@@ -6,7 +6,8 @@
     <string name="title_home">Home</string>
     <string name="title_about">About Us</string>
     <string name="title_contact">Contact</string>
-    <string name="title_viewmodel">ViewModel Demo</string>
+    <string name="title_viewmodel">My Simple</string>
+    <string name="title_viewmodel2">My Simple 2</string>
 
     <!-- Body text (with arguments) -->
     <string name="main_greeting">Compose: %1$s</string>

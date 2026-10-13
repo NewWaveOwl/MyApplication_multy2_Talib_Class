@@ -33,9 +33,9 @@ fun MainScreen(onGoAbout: () -> Unit, onGoContact: () -> Unit, onGoViewModel: ()
         Button(onClick = onGoContact) { Text(stringResource(Res.string.btn_go_contact)) }
         HorizontalDivider()
         Text(stringResource(Res.string.viewmodel_demo_number, 1))
-        MySimpleScreen2(key = 1)
+        MySimpleScreen2a(key = 1)
         HorizontalDivider()
         Text(stringResource(Res.string.viewmodel_demo_number, 2))
-        MySimpleScreen2(key = 2)
+        MySimpleScreen2a(key = 2)
     }
 }
