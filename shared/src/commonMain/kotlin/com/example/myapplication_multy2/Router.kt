@@ -10,6 +10,8 @@ import myapplication_multy2.shared.generated.resources.Res
 import myapplication_multy2.shared.generated.resources.title_about
 import myapplication_multy2.shared.generated.resources.title_contact
 import myapplication_multy2.shared.generated.resources.title_home
+import myapplication_multy2.shared.generated.resources.title_flow
+import myapplication_multy2.shared.generated.resources.title_previews
 import myapplication_multy2.shared.generated.resources.title_viewmodel
 import myapplication_multy2.shared.generated.resources.title_viewmodel2
 import myapplication_multy2.shared.generated.resources.title_viewmodel3
@@ -36,6 +38,16 @@ data object MySimpleScreen2Key : ScreenKey {
 }
 
 @Serializable
+data object ColdFlowScreenKey : ScreenKey {
+    override val screenTitle: StringResource get() = Res.string.title_flow
+}
+
+@Serializable
+data object ScreenPreviewsKey : ScreenKey {
+    override val screenTitle: StringResource get() = Res.string.title_previews
+}
+
+@Serializable
 data class MySimpleScreen3Key(val seed: Int) : ScreenKey {
     override val screenTitle: StringResource get() = Res.string.title_viewmodel3
 }
@@ -55,6 +67,8 @@ val navSavedStateConfig = SavedStateConfiguration {
     serializersModule = SerializersModule {
         polymorphic(NavKey::class) {
             subclass(MainScreenKey::class)
+            subclass(ColdFlowScreenKey::class, ColdFlowScreenKey.serializer())
+            subclass(ScreenPreviewsKey::class, ScreenPreviewsKey.serializer())
             subclass(MySimpleScreenKey::class, MySimpleScreenKey.serializer())
             subclass(MySimpleScreen2Key::class, MySimpleScreen2Key.serializer())
             subclass(MySimpleScreen3Key::class, MySimpleScreen3Key.serializer())

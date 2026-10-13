@@ -1,5 +1,53 @@
 This is a Kotlin Multiplatform project targeting Android, iOS and Wasm.
 
+### Day 22/23: Flow exercises through slide 22
+
+From Home, choose **Flow demo**. **Collector 1** and **Collector 2** independently
+collect the same cold `Flow<Int>`. Each run emits 1, 2 and 3, with `delay(500)`
+between values, without blocking the UI. Each panel shows **No value yet** until
+it receives a value, then displays its own **Latest value**. Starting one collector
+does not start or update the other. A finished collector can be started again.
+
+- Slides 14-18: `ColdFlows.kt` defines the cold `flow { emit(...) }` producer and
+  the `flowOf`/collection `asFlow` alternatives. Each collection starts afresh.
+- Slides 20-21: `ColdFlowDemo` uses `rememberCoroutineScope()` and independent
+  `launch { collect { ... } }` calls from the two collector buttons. Leaving the
+  screen cancels its active collections.
+- Slide 22: both latest values use `rememberSaveable { mutableStateOf<Int?>(null) }`
+  and appear as Text in the UI. Rotation preserves the latest displayed values;
+  collecting again is an explicit button action.
+- Coroutines Core is an explicit common dependency. Host tests exercise concurrent
+  collection, early completion/cancellation, recollection and the fixed builders.
+
+The requested stopping point is slide 22: StateFlow, SharedFlow,
+`collectAsState`, and datetime exercises from later slides are not introduced.
+The earlier features/benefits team activity is classroom groupwork rather than
+an app implementation or an authorization to submit anything to Teams.
+
+### Screen previews: app feature
+
+From Home, choose **Screen previews**. Select **Screen 1**, **Screen 2**,
+**Seed 10**, or **Seed 20** to interact with the corresponding real screen view.
+The seed previews start at 10 and 20; the other views start at 0. Add/remove items
+or increment the first screen's counter, then switch views to compare their states.
+**Open full screen** navigates to the selected screen's regular destination.
+
+Each preview selection has its own ViewModel owner inside a shared preview
+provider. This keeps the two seed previews independent without changing the
+screen implementations, and preserves each preview while switching selections
+or rotating. Preview stores are released when the preview session leaves the
+composition. Regular destinations keep their existing navigation state rules.
+The nested owner provider also demonstrates the subtree override from slide 9.
+
+User benefit: users can compare screen behavior and seed starting values in one
+place, keeping their place as they switch between examples.
+
+Manual checks: start each collector separately and together, let both reach 3,
+then restart one and verify the other stays at 3. Rotate with values displayed.
+In Screen previews, increment Screen 1, edit Screen 2, add an item to Seed 10 and
+Seed 20, and switch back to confirm their states remain separate. Open a selected
+screen full-size and use Back to return to the preview feature.
+
 ### ViewModel exercises: coverage of the supplied presentation
 
 All coding exercises in the supplied `AppDev2_Day_20and21_ViewModels_rev.pptx`

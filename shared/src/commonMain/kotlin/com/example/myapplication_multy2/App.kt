@@ -71,9 +71,13 @@ fun App(clearViewModelsOnPop: Boolean = false) {
                             MainScreen(
                                 onGoAbout = goAbout,
                                 onGoContact = goContact,
-                                onGoViewModel = goMySimple
+                                onGoViewModel = goMySimple,
+                                onGoFlow = { navigator.navigate(ColdFlowScreenKey) },
+                                onGoPreviews = { navigator.navigate(ScreenPreviewsKey) }
                             )
                         }
+                        entry<ColdFlowScreenKey> { ColdFlowDemo() }
+                        entry<ScreenPreviewsKey> { ScreenPreviewsScreen(onOpenScreen = navigator::navigate) }
                         entry<MySimpleScreenKey> { MySimpleScreen() }
                         entry<MySimpleScreen2Key> { MySimpleScreen2() }
                         entry<MySimpleScreen3Key> { key -> MySimpleScreen3(seed = key.seed) }
