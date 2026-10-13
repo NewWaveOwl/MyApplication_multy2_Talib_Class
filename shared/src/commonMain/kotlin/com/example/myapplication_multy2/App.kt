@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -18,7 +19,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 @Preview
-fun App() {
+// Set to true for the standard cleanup comparison from slides 40 and 42.
+fun App(clearViewModelsOnPop: Boolean = false) {
     MaterialTheme {
         val backStack = rememberNavBackStack(navSavedStateConfig, MainScreenKey)
         val navigator = remember(backStack) { Navigator(backStack) }
@@ -33,6 +35,13 @@ fun App() {
 
         val goMySimple: () -> Unit = { navigator.navigate(MySimpleScreenKey) }
         val goMySimple2: () -> Unit = { navigator.navigate(MySimpleScreen2Key) }
+        val goSeed10: () -> Unit = { navigator.navigate(MySimpleScreen3Key(seed = 10)) }
+        val goSeed20: () -> Unit = { navigator.navigate(MySimpleScreen3Key(seed = 20)) }
+        val viewModelDecorator = if (clearViewModelsOnPop) {
+            rememberViewModelStoreNavEntryDecorator<NavKey>()
+        } else {
+            rememberRetainedViewModelStoreNavEntryDecorator<NavKey>()
+        }
 
         CompositionLocalProvider(LocalNavigator provides navigator) {
             // Shared chrome stays outside NavDisplay's animated screen content.
@@ -45,15 +54,17 @@ fun App() {
                 onAbout = goAbout,
                 onContact = goContact,
                 onMySimple = goMySimple,
-                onMySimple2 = goMySimple2
+                onMySimple2 = goMySimple2,
+                onSeed10 = goSeed10,
+                onSeed20 = goSeed20
             ) {
                 NavDisplay(
                     backStack = backStack,
                     onBack = navigator::pop,
-                    // Slide 34 exercise: ViewModels use the app root's owner.
-                    // Popping a destination therefore retains its ViewModel state.
+                    // Saveable state must wrap the ViewModel store decorator.
                     entryDecorators = listOf(
-                        rememberSaveableStateHolderNavEntryDecorator()
+                        rememberSaveableStateHolderNavEntryDecorator(),
+                        viewModelDecorator
                     ),
                     entryProvider = entryProvider<NavKey> {
                         entry<MainScreenKey> {
@@ -65,6 +76,7 @@ fun App() {
                         }
                         entry<MySimpleScreenKey> { MySimpleScreen() }
                         entry<MySimpleScreen2Key> { MySimpleScreen2() }
+                        entry<MySimpleScreen3Key> { key -> MySimpleScreen3(seed = key.seed) }
                         entry<AboutScreenKey> { key ->
                             AboutScreen(name = key.name, onGoMain = goHome, onGoContact = goContact)
                         }

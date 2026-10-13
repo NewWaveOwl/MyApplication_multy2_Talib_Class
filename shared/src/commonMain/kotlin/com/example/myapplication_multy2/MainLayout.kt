@@ -24,12 +24,16 @@ fun MainLayout(
     onContact: () -> Unit,
     onMySimple: () -> Unit,
     onMySimple2: () -> Unit,
+    onSeed10: () -> Unit,
+    onSeed20: () -> Unit,
     content: @Composable () -> Unit
 ) {
     Scaffold(
         topBar = { SharedTopBar(screenTitle, canGoBack, onBack) },
         bottomBar = {
-            SharedBottomBar(currentScreen, onHome, onAbout, onContact, onMySimple, onMySimple2)
+            SharedBottomBar(
+                currentScreen, onHome, onAbout, onContact, onMySimple, onMySimple2, onSeed10, onSeed20
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onHome) {

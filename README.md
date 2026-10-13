@@ -1,77 +1,88 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+This is a Kotlin Multiplatform project targeting Android, iOS and Wasm.
 
-### ViewModel exercises through the slide 34 navigation exercise
+### ViewModel exercises: coverage of the supplied presentation
 
-From Home, choose **Go to ViewModel Demo**. **Increment** updates the retained
-counter. **Add item** generates a string, and tapping an item removes it. The
-counter and list are separate exercises: list edits do not change the counter.
+All coding exercises in the supplied `AppDev2_Day_20and21_ViewModels_rev.pptx`
+are implemented. This copy contains 45 slides, so there is no slide 46 to inspect.
+Sprint planning/groupwork and optional external codelabs are not app features.
 
-- Slides 13–18: lifecycle dependencies, `viewmodels/MySimpleViewModel`, private
-  mutable counter exposed as `State<Int>`, and the `viewModel { ... }` factory.
-- Slides 19–22: observable string list, `add`/`remove` actions, and reusable
-  `DisplayChangingList` receiving only a list and callbacks. The counter uses a
-  traditional backing property; the list demonstrates Kotlin 2.4 explicit backing
-  fields from slide 21.
+| Slides | Implementation |
+| --- | --- |
+| 13-18 | Lifecycle dependencies, `MySimpleViewModel`, private mutable counter exposed as `State<Int>`, multiplatform `viewModel { ... }` initializer, and Increment button. |
+| 19-26 | Observable string lists, add/remove actions, Kotlin explicit backing fields, and reusable `DisplayChangingList` receiving only data/callbacks. `MySimpleViewModel2` changes its counter with list edits. Missing-item removals do not decrement it. Lists are bounded to 300 dp and can scroll. |
+| 27 | `MySimpleViewModel2.init` copies optional initial items and initializes the count once per instance. |
+| 29-31 | Home contains two `MySimpleScreen2a` instances with different stable ViewModel keys, preserving the independent counter/list demonstration. |
+| 32-39 | Navigation store ownership, saved-state decorator first, standard ViewModel decorator, and same-route sharing until the last entry is removed. |
+| 35, 40 | Serializable `MySimpleScreenKey`/`MySimpleScreen2Key`, serializer registrations, entry providers, bottom navigation, and both cleanup/retention modes. Screens use no manual ViewModel keys. |
+| 42-43 | `MySimpleScreen3`, `MySimpleViewModel3(seed)`, serializable `MySimpleScreen3Key(seed)`, serializer/provider registration, Seed 10/20 navigation items and matching selection highlights. |
+| 44-45 | Existing common lifecycle/ViewModel dependencies and shared platform-safe initializers. These slides contain background reading rather than additional app exercises. |
 
-For the slide 34 exercise supplied in chat, ViewModels use the root owner. They
-survive recomposition, rotation, navigation, and popping all destinations back to
-Home. Revisiting the same screen reuses its state even after its entry was popped.
-ViewModels do not persist through process death or a browser reload.
+### Compare cleanup and retention (slides 40 and 42)
 
-### List counter and keyed instances (slides 23-31)
+`App(clearViewModelsOnPop: Boolean = false)` is left in the retained-state mode
+requested at the end of the exercise. Change its default to `true`, or call
+`App(clearViewModelsOnPop = true)`, to run the standard cleanup comparison.
+Restart the app after changing modes; these demonstrations retain memory state,
+not state after process death or browser reload.
 
-Home embeds two `MySimpleScreen2a` instances using keys `1` and `2`. Add an item
-in either demo: only that demo's list and counter change. Tap an item to remove it
-and decrement that demo's counter. Both instances use the same app
-root ViewModelStoreOwner, so their different factory keys provide isolation.
-Passing the same key to both instances instead demonstrates shared state.
+Both modes pass the saved-state decorator first and the ViewModel decorator
+second to `NavDisplay`, as shown in the slides and the video's navigation example.
 
-- Slides 23-26: `MySimpleViewModel2` updates the count on add/remove and exposes
-  read-only observable state. `MySimpleScreen2` passes only list data and actions
-  to `DisplayChangingList`, whose list height is bounded to 300 dp for scrolling.
-  Removing a missing item leaves the count unchanged.
-- Slide 27: the ViewModel's `init` block copies optional initial items and sets
-  the starting count once per instance. Home starts with empty lists and zeroes.
-- Slides 29-31: `MySimpleScreen2a(key: Int = 0, ...)` supplies `viewModel(key = "$key")`
-  with a multiplatform initializer. Home supplies two distinct, stable keys.
+- **Cleanup (`true`):** uses `rememberViewModelStoreNavEntryDecorator()`. Entries
+  with equal route keys share their model. Removing the last entry for a route
+  clears its store. Reopening starts at 0 for My Simple/My Simple 2, or at the
+  route's seed (10 or 20) for My Simple 3.
+- **Retention (`false`):** uses `rememberRetainedViewModelStoreNavEntryDecorator()`.
+  It retains a store per route content key after popping, so reopening restores
+  that route's counter/list. Seed 10 and Seed 20 remain independent. Retained
+  stores belong to a lifecycle-managed provider and clear with that provider.
 
-The original **Go to ViewModel Demo** counter exercise remains available. Its
-manual increment counter stays independent from its list, as in slides 14-22.
-The Home demos use the later list-coupled counter exercise.
+**Lifecycle 2.11 compatibility:** the slide's literal
+`rememberViewModelStoreNavEntryDecorator { false }` overload is deprecated and
+its callback is ignored by the installed library: it still clears on pop.
+The small retained decorator implements the exercise using supported
+`rememberViewModelStoreProvider` and `rememberViewModelStoreOwner` APIs and
+intentionally omits per-pop store cleanup. It is not a second root-wide model
+shared across every seed; isolation follows route content keys, matching the
+seed exercise. No dependency downgrade is needed.
 
-Manual check: on Home, add two items in the first demo and one in the second.
-Remove one from the first; both counters should read 1 with different lists.
-Rotate the Android device, or navigate to About then use Back: each demo should
-retain its own state. Scroll Home and add enough items to scroll each bounded list.
+### Screens and navigation
 
-### Navigation exercise (slide 34 text supplied in chat)
+The bottom bar has Home, About Us, Contact, My Simple, My Simple 2, Seed 10,
+and Seed 20. Tapping a simple-screen item can push another occurrence of the
+same route. The top Back button pops one entry. The Home action pushes Home;
+to remove entries for the cleanup experiment, use Back until only Home remains.
 
-The bottom navigation has Home, About Us, Contact, My Simple, and My Simple 2.
-The last two push `MySimpleScreenKey` and `MySimpleScreen2Key`, respectively.
-Both routes are serializable, registered in `navSavedStateConfig`, and mapped
-by `entryProvider`. Their titles use the existing localized resource contract.
-`MySimpleScreen2()` uses `viewModel { MySimpleViewModel2() }` without manual keys;
-only the separate Home demonstration calls the keyed `MySimpleScreen2a` variant.
+My Simple's Increment counter is independent of its list (the first exercise).
+My Simple 2's counter tracks its list size. My Simple 3 starts with an empty list
+and the selected seed as its count; adding an item increments that count and
+removing it decrements it. The screen takes `seed` from its route and provides it
+to `viewModel { MySimpleViewModel3(seed) }`, without a manual ViewModel key.
 
-`NavDisplay` retains its saveable-state decorator but deliberately omits the
-ViewModel-store entry decorator. This matches the requested root-owner behavior:
-repeated entries for My Simple share one counter/list, repeated entries for
-My Simple 2 share another counter/list, and popping destinations does not clear
-either model. The two screen classes still have independent state. The later
-entry-scoping exercise can add `rememberViewModelStoreNavEntryDecorator()` back
-when each destination should clear its ViewModel on removal.
+Manual comparison:
 
-Manual check: open My Simple, increment twice, open My Simple 2 and add an item,
-then revisit My Simple. Its counter remains 2. Press Back repeatedly until Home
-is the only entry, then reopen both screens and verify their state remains.
-Tapping the selected My Simple navigation item pushes another instance, allowing
-the repeated-destination behavior to be checked directly. Rotate and verify state.
+1. Open My Simple, increment, visit My Simple 2, then revisit My Simple. The
+   original counter remains while an occurrence of its route is on the stack.
+2. Pop all entries back to Home and reopen each. Cleanup mode resets them;
+   retention mode keeps their values and lists.
+3. Open Seed 10 and add two items (count 12). Open Seed 20 and add one (count 21).
+   Revisit Seed 10: it remains 12 with its own list and the correct highlighted tab.
+4. Pop all entries and revisit both seeds. Cleanup mode returns to 10 and 20;
+   retention mode restores 12 and 21. Rotate and verify both route and state persist.
+
+Reference material checked:
+
+- [Class video's published navigation source](https://github.com/philipplackner/Nav3Guide/blob/1-nav3-basics/composeApp/src/commonMain/kotlin/com/plcoding/nav3_guide/navigation/NavigationRoot.kt).
+- [Compose Multiplatform ViewModel scoping](https://kotlinlang.org/docs/multiplatform/compose-viewmodel.html#viewmodel-scoping-with-navigation-3).
+- [Compose Multiplatform Navigation 3](https://kotlinlang.org/docs/multiplatform/compose-navigation-3.html).
+- Installed Lifecycle 2.11 source confirms the ignored legacy callback. YouTube
+  returned an empty caption response, so the video review used its published code.
 
 ### MVVM and shared layout
 
 - **Model:** immutable `Person` data and centralized `SamplePeople` defaults in
   `model/Person.kt`, independent of UI and navigation.
-- **ViewModel:** `AboutViewModel`, `ContactViewModel`, `MySimpleViewModel`, and `MySimpleViewModel2`
+- **ViewModel:** `AboutViewModel`, `ContactViewModel`, `MySimpleViewModel`, `MySimpleViewModel2`, and `MySimpleViewModel3`
   own screen data/state. Route data is immutable; the demo exposes observable
   counter/list state. Models never hold composables, navigation hosts or UI objects.
 - **View:** screen composables bind ViewModels at the screen boundary, then pass
@@ -99,7 +110,7 @@ Build and automated checks:
 Manual Android check: increment several times, add items, remove one, rotate the
 device, and verify both states remain. Navigate to About or Contact with the
 bottom bar, then use Back and verify the demo's state remains. Pop the demo and
-reopen it from Home to verify the root-owned state remains. iOS builds require macOS/Xcode.
+reopen it from Home to verify the behavior selected by clearViewModelsOnPop. iOS builds require macOS/Xcode.
 
 * [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
