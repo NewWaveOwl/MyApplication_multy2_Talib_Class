@@ -22,6 +22,8 @@
     <string name="btn_increment">Increment</string>
     <string name="btn_add_item">Add item</string>
     <string name="counter_value">Counter: %1$d</string>
+    <string name="total_items_added">Total items added by user: %1$d</string>
+    <string name="viewmodel_demo_number">List demo %1$d</string>
     <string name="list_instructions">Tap an item to remove it.</string>
     <string name="list_empty">No items yet. Add an item to get started.</string>
 

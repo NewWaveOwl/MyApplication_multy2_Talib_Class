@@ -1,6 +1,6 @@
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
-### ViewModel exercises through presentation slide 22
+### ViewModel exercises through presentation slide 31
 
 From Home, choose **Go to ViewModel Demo**. **Increment** updates the retained
 counter. **Add item** generates a string, and tapping an item removes it. The
@@ -19,16 +19,42 @@ Use the top Back button to return to a retained demo after opening another scree
 Popping the demo clears its model; opening a new demo starts at zero with an empty
 list. ViewModels do not persist through process death or a browser reload.
 
+### List counter and keyed instances (slides 23-31)
+
+Home now embeds two `MySimpleScreen2` instances using keys `1` and `2`. Add an item
+in either demo: only that demo's list and counter change. Tap an item to remove it
+and decrement that demo's counter. Both instances use the same Home navigation
+entry's ViewModelStoreOwner, so their different factory keys provide isolation.
+Passing the same key to both instances instead demonstrates shared state.
+
+- Slides 23-26: `MySimpleViewModel2` updates the count on add/remove and exposes
+  read-only observable state. `MySimpleScreen2` passes only list data and actions
+  to `DisplayChangingList`, whose list height is bounded to 300 dp for scrolling.
+  Removing a missing item leaves the count unchanged.
+- Slide 27: the ViewModel's `init` block copies optional initial items and sets
+  the starting count once per instance. Home starts with empty lists and zeroes.
+- Slides 29-31: `MySimpleScreen2(key: Int = 0, ...)` supplies `viewModel(key = "$key")`
+  with a multiplatform initializer. Home supplies two distinct, stable keys.
+
+The original **Go to ViewModel Demo** counter exercise remains available. Its
+manual increment counter stays independent from its list, as in slides 14-22.
+The Home demos use the later list-coupled counter exercise. No steps beyond
+slide 31 or optional external codelabs are required for these exercises.
+
+Manual check: on Home, add two items in the first demo and one in the second.
+Remove one from the first; both counters should read 1 with different lists.
+Rotate the Android device, or navigate to About then use Back: each demo should
+retain its own state. Scroll Home and add enough items to scroll each bounded list.
+
 ### MVVM and shared layout
 
 - **Model:** immutable `Person` data and centralized `SamplePeople` defaults in
   `model/Person.kt`, independent of UI and navigation.
-- **ViewModel:** `AboutViewModel`, `ContactViewModel`, and `MySimpleViewModel`
+- **ViewModel:** `AboutViewModel`, `ContactViewModel`, `MySimpleViewModel`, and `MySimpleViewModel2`
   own screen data/state. Route data is immutable; the demo exposes observable
   counter/list state. Models never hold composables, navigation hosts or UI objects.
 - **View:** screen composables bind ViewModels at the screen boundary, then pass
-  values and callbacks to reusable content. Home is a stateless navigation menu
-  and does not need an empty ViewModel.
+  values and callbacks to reusable content. Home receives navigation callbacks and hosts the two keyed screen demos.
 
 `App` owns navigation and hoists `MainLayout` above `NavDisplay` as shown in Day 18.
 The shared bars accept state/callbacks, retain the existing Home/About/Contact and

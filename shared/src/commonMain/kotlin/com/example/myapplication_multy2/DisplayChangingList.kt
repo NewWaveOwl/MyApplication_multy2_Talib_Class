@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -44,7 +45,7 @@ fun DisplayChangingList(
         if (theList.isEmpty()) {
             Text(stringResource(Res.string.list_empty))
         }
-        LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
+        LazyColumn(modifier = Modifier.fillMaxWidth().heightIn(max = 300.dp)) {
             items(theList) { item ->
                 Text(
                     text = item,
