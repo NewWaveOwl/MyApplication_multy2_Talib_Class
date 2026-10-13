@@ -37,6 +37,8 @@ fun App(clearViewModelsOnPop: Boolean = false) {
         val goMySimple2: () -> Unit = { navigator.navigate(MySimpleScreen2Key) }
         val goSeed10: () -> Unit = { navigator.navigate(MySimpleScreen3Key(seed = 10)) }
         val goSeed20: () -> Unit = { navigator.navigate(MySimpleScreen3Key(seed = 20)) }
+        val goFlow: () -> Unit = { navigator.navigate(ColdFlowScreenKey) }
+        val goPreviews: () -> Unit = { navigator.navigate(ScreenPreviewsKey) }
         val viewModelDecorator = if (clearViewModelsOnPop) {
             rememberViewModelStoreNavEntryDecorator<NavKey>()
         } else {
@@ -56,7 +58,9 @@ fun App(clearViewModelsOnPop: Boolean = false) {
                 onMySimple = goMySimple,
                 onMySimple2 = goMySimple2,
                 onSeed10 = goSeed10,
-                onSeed20 = goSeed20
+                onSeed20 = goSeed20,
+                onFlow = goFlow,
+                onPreviews = goPreviews
             ) {
                 NavDisplay(
                     backStack = backStack,
@@ -72,8 +76,8 @@ fun App(clearViewModelsOnPop: Boolean = false) {
                                 onGoAbout = goAbout,
                                 onGoContact = goContact,
                                 onGoViewModel = goMySimple,
-                                onGoFlow = { navigator.navigate(ColdFlowScreenKey) },
-                                onGoPreviews = { navigator.navigate(ScreenPreviewsKey) }
+                                onGoFlow = goFlow,
+                                onGoPreviews = goPreviews
                             )
                         }
                         entry<ColdFlowScreenKey> { ColdFlowDemo() }

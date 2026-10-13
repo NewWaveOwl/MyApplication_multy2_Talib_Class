@@ -1,8 +1,28 @@
 This is a Kotlin Multiplatform project targeting Android, iOS and Wasm.
 
+### Navigation guide
+
+The bottom bar contains **Home**, **About Us**, and **Contact**.
+Tap the **hamburger menu in the top-right corner** from any screen to open:
+
+- **Screen previews:** compare Screen 1, Screen 2, Seed 10, and Seed 20 interactively.
+- **Flow demo:** run the two independent collectors and see their latest values.
+- **My Simple:** open Screen 1's counter and list exercise.
+- **My Simple 2:** open Screen 2's list-linked counter exercise.
+- **Seed 10** or **Seed 20:** open Screen 3 with the selected starting count.
+
+The current menu destination appears in bold. Choosing an item closes the menu
+and opens that screen. Tap outside the menu or press Back to dismiss it. You can
+choose the same destination again to push another occurrence for the navigation
+exercises. The top-left Back arrow removes one entry from the back stack.
+
+Home also keeps its **Flow demo**, **Screen previews**, and ViewModel demo buttons.
+The **Home** floating button opens Home; use Back repeatedly to pop entries when
+checking whether ViewModels reset or retain their state.
+
 ### Day 22/23: Flow exercises through slide 22
 
-From Home, choose **Flow demo**. **Collector 1** and **Collector 2** independently
+Choose **Flow demo** from the top-right menu or Home. **Collector 1** and **Collector 2** independently
 collect the same cold `Flow<Int>`. Each run emits 1, 2 and 3, with `delay(500)`
 between values, without blocking the UI. Each panel shows **No value yet** until
 it receives a value, then displays its own **Latest value**. Starting one collector
@@ -26,7 +46,7 @@ an app implementation or an authorization to submit anything to Teams.
 
 ### Screen previews: app feature
 
-From Home, choose **Screen previews**. Select **Screen 1**, **Screen 2**,
+Choose **Screen previews** from the top-right menu or Home. Select **Screen 1**, **Screen 2**,
 **Seed 10**, or **Seed 20** to interact with the corresponding real screen view.
 The seed previews start at 10 and 20; the other views start at 0. Add/remove items
 or increment the first screen's counter, then switch views to compare their states.
@@ -61,8 +81,8 @@ Sprint planning/groupwork and optional external codelabs are not app features.
 | 27 | `MySimpleViewModel2.init` copies optional initial items and initializes the count once per instance. |
 | 29-31 | Home contains two `MySimpleScreen2a` instances with different stable ViewModel keys, preserving the independent counter/list demonstration. |
 | 32-39 | Navigation store ownership, saved-state decorator first, standard ViewModel decorator, and same-route sharing until the last entry is removed. |
-| 35, 40 | Serializable `MySimpleScreenKey`/`MySimpleScreen2Key`, serializer registrations, entry providers, bottom navigation, and both cleanup/retention modes. Screens use no manual ViewModel keys. |
-| 42-43 | `MySimpleScreen3`, `MySimpleViewModel3(seed)`, serializable `MySimpleScreen3Key(seed)`, serializer/provider registration, Seed 10/20 navigation items and matching selection highlights. |
+| 35, 40 | Serializable `MySimpleScreenKey`/`MySimpleScreen2Key`, serializer registrations, entry providers, menu navigation, and both cleanup/retention modes. Screens use no manual ViewModel keys. |
+| 42-43 | `MySimpleScreen3`, `MySimpleViewModel3(seed)`, serializable `MySimpleScreen3Key(seed)`, serializer/provider registration, Seed 10/20 menu items and matching selection highlights. |
 | 44-45 | Existing common lifecycle/ViewModel dependencies and shared platform-safe initializers. These slides contain background reading rather than additional app exercises. |
 
 ### Compare cleanup and retention (slides 40 and 42)
@@ -96,10 +116,11 @@ seed exercise. No dependency downgrade is needed.
 
 ### Screens and navigation
 
-The bottom bar has Home, About Us, Contact, My Simple, My Simple 2, Seed 10,
-and Seed 20. Tapping a simple-screen item can push another occurrence of the
-same route. The top Back button pops one entry. The Home action pushes Home;
-to remove entries for the cleanup experiment, use Back until only Home remains.
+The bottom bar has Home, About Us, and Contact. The top-right hamburger menu
+contains the simple screens, both seeds, Flow demo, and Screen previews. Choosing
+a simple screen or seed from the menu can push another occurrence of the same
+route. The top Back button pops one entry. The Home action pushes Home; to remove
+entries for the cleanup experiment, use Back until only Home remains.
 
 My Simple's Increment counter is independent of its list (the first exercise).
 My Simple 2's counter tracks its list size. My Simple 3 starts with an empty list
@@ -114,7 +135,7 @@ Manual comparison:
 2. Pop all entries back to Home and reopen each. Cleanup mode resets them;
    retention mode keeps their values and lists.
 3. Open Seed 10 and add two items (count 12). Open Seed 20 and add one (count 21).
-   Revisit Seed 10: it remains 12 with its own list and the correct highlighted tab.
+   Revisit Seed 10: it remains 12 with its own list and the correct highlighted menu item.
 4. Pop all entries and revisit both seeds. Cleanup mode returns to 10 and 20;
    retention mode restores 12 and 21. Rotate and verify both route and state persist.
 
