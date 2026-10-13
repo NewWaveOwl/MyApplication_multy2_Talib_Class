@@ -6,6 +6,7 @@
     <string name="title_home">Home</string>
     <string name="title_about">About Us</string>
     <string name="title_contact">Contact</string>
+    <string name="title_viewmodel">ViewModel Demo</string>
 
     <!-- Body text (with arguments) -->
     <string name="main_greeting">Compose: %1$s</string>
@@ -17,6 +18,12 @@
     <string name="btn_go_about">Go to About</string>
     <string name="btn_go_contact">Go to Contact</string>
     <string name="fab_home">Home</string>
+    <string name="btn_go_viewmodel">Go to ViewModel Demo</string>
+    <string name="btn_increment">Increment</string>
+    <string name="btn_add_item">Add item</string>
+    <string name="counter_value">Counter: %1$d</string>
+    <string name="list_instructions">Tap an item to remove it.</string>
+    <string name="list_empty">No items yet. Add an item to get started.</string>
 
     <!-- Bars -->
     <string name="copyright">\u00A9 2026 CoolEntertainment, Inc.</string>

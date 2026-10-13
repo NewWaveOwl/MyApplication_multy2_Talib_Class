@@ -5,10 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.myapplication_multy2.layout.MainLayout
+import com.example.myapplication_multy2.model.SamplePeople
+import myapplication_multy2.shared.generated.resources.Res
+import myapplication_multy2.shared.generated.resources.title_home
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 @Preview
@@ -16,19 +23,56 @@ fun App() {
     MaterialTheme {
         val backStack = rememberNavBackStack(navSavedStateConfig, MainScreenKey)
         val navigator = remember(backStack) { Navigator(backStack) }
+        val currentScreen = navigator.current as? ScreenKey
+        val goHome: () -> Unit = { navigator.navigate(MainScreenKey) }
+        val goAbout: () -> Unit = {
+            navigator.navigate(AboutScreenKey(SamplePeople.about.name))
+        }
+        val goContact: () -> Unit = {
+            navigator.navigate(ContactScreenKey(SamplePeople.contact.name, SamplePeople.contact.city))
+        }
 
         CompositionLocalProvider(LocalNavigator provides navigator) {
-            NavDisplay(
-                backStack = backStack,
-                onBack = { navigator.pop() },
-                entryProvider = entryProvider<NavKey> {
-                    entry<MainScreenKey> { MainScreen() }
-                    entry<AboutScreenKey> { key -> AboutScreen(name = key.name) }
-                    entry<ContactScreenKey> { key ->
-                        ContactScreen(name = key.name, city = key.city)
+            // Shared chrome stays outside NavDisplay's animated screen content.
+            MainLayout(
+                screenTitle = stringResource(currentScreen?.screenTitle ?: Res.string.title_home),
+                currentScreen = currentScreen,
+                canGoBack = navigator.hasPrevious(),
+                onBack = navigator::pop,
+                onHome = goHome,
+                onAbout = goAbout,
+                onContact = goContact
+            ) {
+                NavDisplay(
+                    backStack = backStack,
+                    onBack = navigator::pop,
+                    entryDecorators = listOf(
+                        rememberSaveableStateHolderNavEntryDecorator(),
+                        rememberViewModelStoreNavEntryDecorator()
+                    ),
+                    entryProvider = entryProvider<NavKey> {
+                        entry<MainScreenKey> {
+                            MainScreen(
+                                onGoAbout = goAbout,
+                                onGoContact = goContact,
+                                onGoViewModel = { navigator.navigate(MySimpleScreenKey) }
+                            )
+                        }
+                        entry<MySimpleScreenKey> { MySimpleScreen() }
+                        entry<AboutScreenKey> { key ->
+                            AboutScreen(name = key.name, onGoMain = goHome, onGoContact = goContact)
+                        }
+                        entry<ContactScreenKey> { key ->
+                            ContactScreen(
+                                name = key.name,
+                                city = key.city,
+                                onGoMain = goHome,
+                                onGoAbout = goAbout
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }

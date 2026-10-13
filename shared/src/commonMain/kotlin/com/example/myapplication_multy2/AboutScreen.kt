@@ -7,30 +7,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.myapplication_multy2.layout.MainLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myapplication_multy2.viewmodels.AboutViewModel
 import myapplication_multy2.shared.generated.resources.Res
 import myapplication_multy2.shared.generated.resources.about_message
 import myapplication_multy2.shared.generated.resources.btn_go_contact
 import myapplication_multy2.shared.generated.resources.btn_go_main
-import myapplication_multy2.shared.generated.resources.title_about
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun AboutScreen(name: String) {
-    val navigator = LocalNavigator.current
+fun AboutScreen(
+    name: String,
+    onGoMain: () -> Unit,
+    onGoContact: () -> Unit,
+    myViewModel: AboutViewModel = viewModel { AboutViewModel(name) }
+) {
+    AboutContent(myViewModel.person.name, onGoMain, onGoContact)
+}
 
-    MainLayout(screenTitle = stringResource(Res.string.title_about)) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(stringResource(Res.string.about_message, name))
-            Button(onClick = { navigator.navigate(MainScreenKey) }) {
-                Text(stringResource(Res.string.btn_go_main))
-            }
-            Button(onClick = { navigator.navigate(ContactScreenKey("Julie", "Paris")) }) {
-                Text(stringResource(Res.string.btn_go_contact))
-            }
-        }
+@Composable
+fun AboutContent(name: String, onGoMain: () -> Unit, onGoContact: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(stringResource(Res.string.about_message, name))
+        Button(onClick = onGoMain) { Text(stringResource(Res.string.btn_go_main)) }
+        Button(onClick = onGoContact) { Text(stringResource(Res.string.btn_go_contact)) }
     }
 }
