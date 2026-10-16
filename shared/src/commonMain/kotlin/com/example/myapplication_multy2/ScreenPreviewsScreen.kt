@@ -33,6 +33,7 @@ import myapplication_multy2.shared.generated.resources.preview_explanation
 import myapplication_multy2.shared.generated.resources.preview_screen1
 import myapplication_multy2.shared.generated.resources.preview_screen2
 import myapplication_multy2.shared.generated.resources.title_hot_flow
+import myapplication_multy2.shared.generated.resources.title_object_flow
 import myapplication_multy2.shared.generated.resources.title_state_flow
 import org.jetbrains.compose.resources.stringResource
 
@@ -46,7 +47,8 @@ fun ScreenPreviewsScreen(onOpenScreen: (ScreenKey) -> Unit) {
         MySimpleScreen3Key(10),
         MySimpleScreen3Key(20),
         HotFlowScreenKey,
-        StateFlowScreenKey
+        StateFlowScreenKey,
+        ObjectFlowScreenKey
     )
     val labels = listOf(
         stringResource(Res.string.preview_screen1),
@@ -54,7 +56,8 @@ fun ScreenPreviewsScreen(onOpenScreen: (ScreenKey) -> Unit) {
         stringResource(Res.string.nav_seed10),
         stringResource(Res.string.nav_seed20),
         stringResource(Res.string.title_hot_flow),
-        stringResource(Res.string.title_state_flow)
+        stringResource(Res.string.title_state_flow),
+        stringResource(Res.string.title_object_flow)
     )
     // Changing the selection swaps owners, so previews of the same model class
     // remain independent. The provider survives rotation and releases its stores
@@ -91,6 +94,7 @@ fun ScreenPreviewsScreen(onOpenScreen: (ScreenKey) -> Unit) {
                     is MySimpleScreen3Key -> MySimpleScreen3(seed = selected.seed)
                     HotFlowScreenKey -> HotFlowDemo()
                     StateFlowScreenKey -> MySimplestScreen()
+                    ObjectFlowScreenKey -> MySimplerScreen()
                     else -> error("Unsupported preview: $selected")
                 }
             }

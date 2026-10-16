@@ -47,6 +47,7 @@
     <string name="title_flow">Flow demo</string>
     <string name="title_hot_flow">Hot flow</string>
     <string name="title_state_flow">Exercise 6: StateFlow</string>
+    <string name="title_object_flow">Exercise 7: Object Flow</string>
     <string name="title_previews">Screen previews</string>
     <string name="flow_explanation">Start either collector to receive 1, 2, and 3, half a second apart. Each collector starts its own sequence.</string>
     <string name="collector_number">Collector %1$d</string>
@@ -60,4 +61,5 @@
     <string name="append_to_name">Append To Name</string>
     <string name="counter_is">Counter is %1$d</string>
     <string name="increment_counter">Increment Counter</string>
+    <string name="profile_name">Name: %1$s</string>
 </resources>
