@@ -19,5 +19,9 @@ class MySimplestViewModelTest {
 
         assertEquals("xx", viewModel.nameFlow.value)
         assertEquals(2, viewModel.counterFlow.value)
+
+        viewModel.addItem("Item 1")
+        viewModel.addItem("Item 2")
+        assertEquals(listOf("Item 1", "Item 2"), viewModel.items.value)
     }
 }

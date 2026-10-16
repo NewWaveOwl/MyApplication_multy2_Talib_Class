@@ -48,6 +48,7 @@
     <string name="title_hot_flow">Hot flow</string>
     <string name="title_state_flow">Exercise 6: StateFlow</string>
     <string name="title_object_flow">Exercise 7: Object Flow</string>
+    <string name="title_state_flow_lists">Exercise 8: StateFlow Lists</string>
     <string name="title_previews">Screen previews</string>
     <string name="flow_explanation">Start either collector to receive 1, 2, and 3, half a second apart. Each collector starts its own sequence.</string>
     <string name="collector_number">Collector %1$d</string>
@@ -62,4 +63,7 @@
     <string name="counter_is">Counter is %1$d</string>
     <string name="increment_counter">Increment Counter</string>
     <string name="profile_name">Name: %1$s</string>
+    <string name="add_item">Add Item</string>
+    <string name="list_approach_a">Approach A: list stored directly in ViewModel</string>
+    <string name="list_approach_b">Approach B: list stored in ProfileData</string>
 </resources>

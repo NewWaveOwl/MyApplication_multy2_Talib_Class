@@ -18,5 +18,12 @@ class MySimplerViewModelTest {
         viewModel.increment()
         viewModel.increment()
         assertEquals(ProfileData(name = "xx", counter = 2), viewModel.uiState.value)
+
+        viewModel.addItemToProfile("Item 1")
+        viewModel.addItemToProfile("Item 2")
+        assertEquals(
+            ProfileData(name = "xx", counter = 2, items = listOf("Item 1", "Item 2")),
+            viewModel.uiState.value
+        )
     }
 }

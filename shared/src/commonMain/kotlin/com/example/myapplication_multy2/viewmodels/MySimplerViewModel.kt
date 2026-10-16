@@ -23,4 +23,11 @@ class MySimplerViewModel : ViewModel() {
             currentState.copy(counter = currentState.counter + 1)
         }
     }
+
+    // Exercise 8, Approach B: the list belongs to ProfileData.
+    fun addItemToProfile(item: String) {
+        _uiState.update { currentState ->
+            currentState.copy(items = currentState.items + item)
+        }
+    }
 }
