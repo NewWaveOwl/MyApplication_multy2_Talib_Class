@@ -11,6 +11,7 @@ import myapplication_multy2.shared.generated.resources.title_about
 import myapplication_multy2.shared.generated.resources.title_contact
 import myapplication_multy2.shared.generated.resources.title_home
 import myapplication_multy2.shared.generated.resources.title_flow
+import myapplication_multy2.shared.generated.resources.title_hot_flow
 import myapplication_multy2.shared.generated.resources.title_previews
 import myapplication_multy2.shared.generated.resources.title_viewmodel
 import myapplication_multy2.shared.generated.resources.title_viewmodel2
@@ -43,6 +44,11 @@ data object ColdFlowScreenKey : ScreenKey {
 }
 
 @Serializable
+data object HotFlowScreenKey : ScreenKey {
+    override val screenTitle: StringResource get() = Res.string.title_hot_flow
+}
+
+@Serializable
 data object ScreenPreviewsKey : ScreenKey {
     override val screenTitle: StringResource get() = Res.string.title_previews
 }
@@ -68,6 +74,7 @@ val navSavedStateConfig = SavedStateConfiguration {
         polymorphic(NavKey::class) {
             subclass(MainScreenKey::class)
             subclass(ColdFlowScreenKey::class, ColdFlowScreenKey.serializer())
+            subclass(HotFlowScreenKey::class, HotFlowScreenKey.serializer())
             subclass(ScreenPreviewsKey::class, ScreenPreviewsKey.serializer())
             subclass(MySimpleScreenKey::class, MySimpleScreenKey.serializer())
             subclass(MySimpleScreen2Key::class, MySimpleScreen2Key.serializer())
