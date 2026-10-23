@@ -66,4 +66,13 @@
     <string name="add_item">Add Item</string>
     <string name="list_approach_a">Approach A: list stored directly in ViewModel</string>
     <string name="list_approach_b">Approach B: list stored in ProfileData</string>
+    <string name="title_shared_flow">Exercise 9: SharedFlow</string>
+    <string name="shared_flow_strict">Default: suspend</string>
+    <string name="shared_flow_buffered">Buffer 1: suspend</string>
+    <string name="shared_flow_drop_oldest">Buffer 1: drop oldest</string>
+    <string name="shared_flow_replay">Replay 1: drop oldest</string>
+    <string name="shared_flow_emit">Emit event</string>
+    <string name="shared_flow_click_count">Click count: %1$d</string>
+    <string name="shared_flow_received_count">Received count: %1$d</string>
+    <string name="shared_flow_explanation">Click quickly: each received event takes 500 ms. Switching patterns clears the displayed list and click count. ViewModel counters remain while retained; replay can deliver the last event again. Without a collector, only replayed events are retained.</string>
 </resources>

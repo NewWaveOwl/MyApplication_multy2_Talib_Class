@@ -85,6 +85,7 @@ fun App(clearViewModelsOnPop: Boolean = false) {
                         entry<StateFlowScreenKey> { MySimplestScreen() }
                         entry<ObjectFlowScreenKey> { MySimplerScreen() }
                         entry<StateFlowListsScreenKey> { StateFlowListsScreen() }
+                        entry<SharedFlowScreenKey> { SharedFlowScreen() }
                         entry<ScreenPreviewsKey> { ScreenPreviewsScreen(onOpenScreen = navigator::navigate) }
                         entry<MySimpleScreenKey> { MySimpleScreen() }
                         entry<MySimpleScreen2Key> { MySimpleScreen2() }

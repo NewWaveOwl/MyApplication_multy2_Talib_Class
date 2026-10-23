@@ -39,10 +39,38 @@ does not start or update the other. A finished collector can be started again.
 - Coroutines Core is an explicit common dependency. Host tests exercise concurrent
   collection, early completion/cancellation, recollection and the fixed builders.
 
-The requested stopping point is slide 22: StateFlow, SharedFlow,
-`collectAsState`, and datetime exercises from later slides are not introduced.
+This was the original stopping point. Later exercises now include StateFlow,
+object/list state, and the Part 9 SharedFlow comparison described below.
 The earlier features/benefits team activity is classroom groupwork rather than
 an app implementation or an authorization to submit anything to Teams.
+
+### Part 9: SharedFlow (Days 22–23, slides 66–72)
+
+Open **Screen previews → Exercise 9: SharedFlow**. Use **Open full screen** for
+the regular navigation destination. Press **Emit event** rapidly and compare
+the click count with received event labels. The collector uses `collect` with
+a 500 ms delay before appending each event to its local observable list.
+
+| Pattern | replay | extraBufferCapacity | onBufferOverflow |
+| --- | ---: | ---: | --- |
+| Default | 0 | 0 | SUSPEND |
+| Buffered | 0 | 1 | SUSPEND |
+| Drop oldest | 0 | 1 | DROP_OLDEST |
+| Replay latest | 1 | 0 | DROP_OLDEST |
+
+The two suspend patterns eventually deliver every emitted event while the
+collector stays active. Drop-oldest patterns can skip queued events under rapid
+clicking. Replay retains the last event for a returning collector. Changing
+patterns resets the displayed click count/list; each pattern's ViewModel counter
+remains while its owner is retained. Leaving composition cancels collection.
+Without subscribers, only replay values are retained: an extra buffer does not
+save events for an absent screen. This qualifies the slides' lossless-delivery
+statement. See the [official SharedFlow contract](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-shared-flow/).
+
+`SharedFlowViewModelTest` verifies ordered rapid emissions for both suspend
+patterns, dropped queued events for a slow collector, absent-subscriber loss,
+and replay to a new collector using virtual time. Test tooling is confined to
+`commonTest`; no production dependency version was changed.
 
 ### Screen previews: app feature
 
