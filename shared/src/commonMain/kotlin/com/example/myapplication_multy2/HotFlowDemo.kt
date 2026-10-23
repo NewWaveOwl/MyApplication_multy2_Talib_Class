@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import myapplication_multy2.shared.generated.resources.Res
+import myapplication_multy2.shared.generated.resources.info_hot_flow
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Slides 38 and 41:
@@ -65,6 +67,7 @@ fun HotFlowDemo(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_hot_flow))
         Text(
             text = "Hot StateFlow Counter",
             style = MaterialTheme.typography.headlineMedium

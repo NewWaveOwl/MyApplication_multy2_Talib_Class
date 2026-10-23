@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,7 @@ import myapplication_multy2.shared.generated.resources.list_approach_a
 import myapplication_multy2.shared.generated.resources.list_approach_b
 import myapplication_multy2.shared.generated.resources.list_empty
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_state_lists
 
 /** Exercise 8, slides 63-64: two ways to store a list in StateFlow. */
 @Composable
@@ -44,6 +44,7 @@ fun StateFlowListsScreen(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_state_lists))
         Text(
             text = stringResource(Res.string.list_approach_a),
             style = MaterialTheme.typography.titleMedium

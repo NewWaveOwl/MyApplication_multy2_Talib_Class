@@ -2,6 +2,17 @@ This is a Kotlin Multiplatform project targeting Android, iOS and Wasm.
 
 ### Navigation guide
 
+Each exercise has an **Info** icon button that opens its steps and expected
+behavior. This includes full-screen and embedded previews, the independent Home
+list demos, seeded demos, Flow exercises, and the coroutine and navigation examples.
+Help dialogs scroll and close with **Close**, Back, or an outside tap.
+
+The button reuses the existing `ic_info_vector.xml`, whose path matches the
+Google Material Symbols outlined **info** icon from [Google Fonts](https://fonts.google.com/icons?selected=Material+Symbols+Outlined:info).
+The [official SVG source](https://github.com/google/material-design-icons/blob/master/symbols/web/info/materialsymbolsoutlined/info_24px.svg)
+uses a negative Y viewport; the existing vector translates that artwork for
+Android-compatible rendering.
+
 The bottom bar contains **Home**, **About Us**, and **Contact**.
 Tap the **hamburger menu in the top-right corner** from any screen to open:
 
@@ -39,10 +50,52 @@ does not start or update the other. A finished collector can be started again.
 - Coroutines Core is an explicit common dependency. Host tests exercise concurrent
   collection, early completion/cancellation, recollection and the fixed builders.
 
-The requested stopping point is slide 22: StateFlow, SharedFlow,
-`collectAsState`, and datetime exercises from later slides are not introduced.
+This was the original stopping point. Later exercises now include StateFlow,
+object/list state, and the Part 9 SharedFlow comparison described below.
 The earlier features/benefits team activity is classroom groupwork rather than
 an app implementation or an authorization to submit anything to Teams.
+
+### Part 9: SharedFlow (Days 22–23, slides 66–72)
+
+Open **Screen previews → Exercise 9: SharedFlow**. Use **Open full screen** for
+the regular navigation destination. Press **Emit event** rapidly and compare
+the click count with received event labels. The collector uses `collect` with
+a 500 ms delay before appending each event to its local observable list.
+
+| Pattern | replay | extraBufferCapacity | onBufferOverflow |
+| --- | ---: | ---: | --- |
+| Default | 0 | 0 | SUSPEND |
+| Buffered | 0 | 1 | SUSPEND |
+| Drop oldest | 0 | 1 | DROP_OLDEST |
+| Replay latest | 1 | 0 | DROP_OLDEST |
+
+The two suspend patterns eventually deliver every emitted event while the
+collector stays active. Drop-oldest patterns can skip queued events under rapid
+clicking. Replay retains the last event for a returning collector. Changing
+patterns resets the displayed click count/list; each pattern's ViewModel counter
+remains while its owner is retained. Leaving composition cancels collection.
+Without subscribers, only replay values are retained: an extra buffer does not
+save events for an absent screen. This qualifies the slides' lossless-delivery
+statement. See the [official SharedFlow contract](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-shared-flow/).
+
+`SharedFlowViewModelTest` verifies ordered rapid emissions for both suspend
+patterns, dropped queued events for a slow collector, absent-subscriber loss,
+and replay to a new collector using virtual time. Test tooling is confined to
+`commonTest`; no production dependency version was changed.
+
+### Day 25: Coroutines, slides 17–21
+
+- Slide 17: Android calls `firstCoroutine()` just before `setContent()`. Logcat
+  prints `Hello`, then `World!` one second later. This intentionally blocks
+  startup for the lecture's `runBlocking` experiment; it is outside Compose.
+- Slides 18–21: open **Screen previews → Day 25: Coroutines**. **Click me**
+  launches the Hello/World example in `rememberCoroutineScope()`.
+  `UserProfile(userId)` calls the mock suspend function `fetchUserData` inside
+  `LaunchedEffect(userId)`. **Change user** switches IDs; a pending fetch is
+  cancelled and restarted. Leaving composition cancels its effects/scope.
+
+The mock fetch only delays and returns a label. These examples add no network,
+repository, or ViewModel layer.
 
 ### Screen previews: app feature
 

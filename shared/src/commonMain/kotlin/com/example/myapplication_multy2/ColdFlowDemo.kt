@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +28,7 @@ import myapplication_multy2.shared.generated.resources.flow_explanation
 import myapplication_multy2.shared.generated.resources.latest_value
 import myapplication_multy2.shared.generated.resources.no_value_yet
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_cold_flow
 
 /** Slides 20-22: collect a cold flow from two independent Compose coroutines. */
 @Composable
@@ -43,6 +43,7 @@ fun ColdFlowDemo(numbers: Flow<Int> = remember { coldNumbersFlow() }) {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_cold_flow))
         Text(stringResource(Res.string.flow_explanation))
         CollectorPanel(
             number = 1,

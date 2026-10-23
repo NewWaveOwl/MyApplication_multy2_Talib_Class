@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -11,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication_multy2.viewmodels.MySimpleViewModel3
 import myapplication_multy2.shared.generated.resources.Res
 import myapplication_multy2.shared.generated.resources.seed_value
+import myapplication_multy2.shared.generated.resources.info_seed
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -21,6 +21,9 @@ fun MySimpleScreen3(
     val count by myViewModel.count
     Column {
         Text(stringResource(Res.string.seed_value, seed), modifier = Modifier.padding(8.dp))
-        MySimpleContent2(count, myViewModel.items, myViewModel::add, myViewModel::remove)
+        MySimpleContent2(
+            count, myViewModel.items, myViewModel::add, myViewModel::remove,
+            instructions = stringResource(Res.string.info_seed, seed)
+        )
     }
 }

@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +20,7 @@ import myapplication_multy2.shared.generated.resources.counter_is
 import myapplication_multy2.shared.generated.resources.increment_counter
 import myapplication_multy2.shared.generated.resources.welcome_name
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_state_flow
 
 /** Exercise 6, slides 49-54: collect and change two ViewModel StateFlows. */
 @Composable
@@ -35,6 +35,7 @@ fun MySimplestScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_state_flow))
         Text(
             text = stringResource(Res.string.welcome_name, name),
             style = MaterialTheme.typography.headlineMedium
