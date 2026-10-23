@@ -17,6 +17,7 @@ import myapplication_multy2.shared.generated.resources.title_previews
 import myapplication_multy2.shared.generated.resources.title_state_flow
 import myapplication_multy2.shared.generated.resources.title_state_flow_lists
 import myapplication_multy2.shared.generated.resources.title_shared_flow
+import myapplication_multy2.shared.generated.resources.title_coroutines
 import myapplication_multy2.shared.generated.resources.title_viewmodel
 import myapplication_multy2.shared.generated.resources.title_viewmodel2
 import myapplication_multy2.shared.generated.resources.title_viewmodel3
@@ -73,6 +74,11 @@ data object SharedFlowScreenKey : ScreenKey {
 }
 
 @Serializable
+data object CoroutineDemoScreenKey : ScreenKey {
+    override val screenTitle: StringResource get() = Res.string.title_coroutines
+}
+
+@Serializable
 data object ScreenPreviewsKey : ScreenKey {
     override val screenTitle: StringResource get() = Res.string.title_previews
 }
@@ -103,6 +109,7 @@ val navSavedStateConfig = SavedStateConfiguration {
             subclass(ObjectFlowScreenKey::class, ObjectFlowScreenKey.serializer())
             subclass(StateFlowListsScreenKey::class, StateFlowListsScreenKey.serializer())
             subclass(SharedFlowScreenKey::class, SharedFlowScreenKey.serializer())
+            subclass(CoroutineDemoScreenKey::class, CoroutineDemoScreenKey.serializer())
             subclass(ScreenPreviewsKey::class, ScreenPreviewsKey.serializer())
             subclass(MySimpleScreenKey::class, MySimpleScreenKey.serializer())
             subclass(MySimpleScreen2Key::class, MySimpleScreen2Key.serializer())

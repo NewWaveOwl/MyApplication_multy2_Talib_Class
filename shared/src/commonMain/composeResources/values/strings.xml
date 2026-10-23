@@ -75,4 +75,5 @@
     <string name="shared_flow_click_count">Click count: %1$d</string>
     <string name="shared_flow_received_count">Received count: %1$d</string>
     <string name="shared_flow_explanation">Click quickly: each received event takes 500 ms. Switching patterns clears the displayed list and click count. ViewModel counters remain while retained; replay can deliver the last event again. Without a collector, only replayed events are retained.</string>
+    <string name="title_coroutines">Day 25: Coroutines</string>
 </resources>

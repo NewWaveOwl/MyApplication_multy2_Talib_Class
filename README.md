@@ -72,6 +72,20 @@ patterns, dropped queued events for a slow collector, absent-subscriber loss,
 and replay to a new collector using virtual time. Test tooling is confined to
 `commonTest`; no production dependency version was changed.
 
+### Day 25: Coroutines, slides 17–21
+
+- Slide 17: Android calls `firstCoroutine()` just before `setContent()`. Logcat
+  prints `Hello`, then `World!` one second later. This intentionally blocks
+  startup for the lecture's `runBlocking` experiment; it is outside Compose.
+- Slides 18–21: open **Screen previews → Day 25: Coroutines**. **Click me**
+  launches the Hello/World example in `rememberCoroutineScope()`.
+  `UserProfile(userId)` calls the mock suspend function `fetchUserData` inside
+  `LaunchedEffect(userId)`. **Change user** switches IDs; a pending fetch is
+  cancelled and restarted. Leaving composition cancels its effects/scope.
+
+The mock fetch only delays and returns a label. These examples add no network,
+repository, or ViewModel layer.
+
 ### Screen previews: app feature
 
 Choose **Screen previews** from the top-right menu or Home. Select **Screen 1**, **Screen 2**,
