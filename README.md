@@ -2,6 +2,17 @@ This is a Kotlin Multiplatform project targeting Android, iOS and Wasm.
 
 ### Navigation guide
 
+Each exercise has an **Info** icon button that opens its steps and expected
+behavior. This includes full-screen and embedded previews, the independent Home
+list demos, seeded demos, Flow exercises, and the coroutine and navigation examples.
+Help dialogs scroll and close with **Close**, Back, or an outside tap.
+
+The button reuses the existing `ic_info_vector.xml`, whose path matches the
+Google Material Symbols outlined **info** icon from [Google Fonts](https://fonts.google.com/icons?selected=Material+Symbols+Outlined:info).
+The [official SVG source](https://github.com/google/material-design-icons/blob/master/symbols/web/info/materialsymbolsoutlined/info_24px.svg)
+uses a negative Y viewport; the existing vector translates that artwork for
+Android-compatible rendering.
+
 The bottom bar contains **Home**, **About Us**, and **Contact**.
 Tap the **hamburger menu in the top-right corner** from any screen to open:
 

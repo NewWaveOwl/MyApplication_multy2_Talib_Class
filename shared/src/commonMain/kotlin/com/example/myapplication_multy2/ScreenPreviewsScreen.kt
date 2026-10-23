@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +38,7 @@ import myapplication_multy2.shared.generated.resources.title_state_flow_lists
 import myapplication_multy2.shared.generated.resources.title_shared_flow
 import myapplication_multy2.shared.generated.resources.title_coroutines
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_previews
 
 /** Interactive product feature for comparing the existing screen variants. */
 @Composable
@@ -79,6 +79,7 @@ fun ScreenPreviewsScreen(onOpenScreen: (ScreenKey) -> Unit) {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_previews))
         Text(stringResource(Res.string.preview_explanation))
         Row(
             modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),

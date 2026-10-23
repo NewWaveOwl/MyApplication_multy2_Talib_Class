@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -16,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import myapplication_multy2.shared.generated.resources.Res
+import myapplication_multy2.shared.generated.resources.info_coroutines
+import org.jetbrains.compose.resources.stringResource
 
 /** Day 25, slides 18–21: small scope, suspend-function, and effect examples. */
 @Composable
@@ -26,6 +28,7 @@ fun CoroutineDemoScreen() {
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_coroutines))
         MyButton()
         Button(onClick = { userId = if (userId == "1") "2" else "1" }) {
             Text("Change user")

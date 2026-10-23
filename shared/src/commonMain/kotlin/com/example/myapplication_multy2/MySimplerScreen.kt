@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +20,7 @@ import myapplication_multy2.shared.generated.resources.counter_value
 import myapplication_multy2.shared.generated.resources.increment_counter
 import myapplication_multy2.shared.generated.resources.profile_name
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_object_flow
 
 /** Exercise 7, slides 56-58: collect and display one object-based StateFlow. */
 @Composable
@@ -34,6 +34,7 @@ fun MySimplerScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_object_flow))
         Text(
             text = stringResource(Res.string.profile_name, uiState.name),
             style = MaterialTheme.typography.headlineMedium

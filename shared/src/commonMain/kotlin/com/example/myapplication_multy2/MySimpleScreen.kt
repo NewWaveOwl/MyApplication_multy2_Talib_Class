@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import myapplication_multy2.shared.generated.resources.Res
 import myapplication_multy2.shared.generated.resources.btn_increment
 import myapplication_multy2.shared.generated.resources.counter_value
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_simple
 
 @Composable
 fun MySimpleScreen(
@@ -45,6 +45,7 @@ fun MySimpleContent(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_simple))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically

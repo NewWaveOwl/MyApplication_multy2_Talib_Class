@@ -1,5 +1,4 @@
 package com.example.myapplication_multy2
-
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,6 +39,7 @@ import myapplication_multy2.shared.generated.resources.shared_flow_received_coun
 import myapplication_multy2.shared.generated.resources.shared_flow_replay
 import myapplication_multy2.shared.generated.resources.shared_flow_strict
 import org.jetbrains.compose.resources.stringResource
+import myapplication_multy2.shared.generated.resources.info_shared_flow
 
 /** Exercise 9, slides 70–72: compare the four slide-table configurations. */
 @Composable
@@ -56,6 +56,7 @@ fun SharedFlowScreen() {
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        ExerciseInfoButton(stringResource(Res.string.info_shared_flow))
         Row(
             modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
